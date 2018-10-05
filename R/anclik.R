@@ -24,9 +24,9 @@ fnPrepareANCLikelihoodData <- function(anc.prev, anc.n, anc.used = TRUE, anchor.
     
     x.lst <- mapply(function(p, n) (p * n + 0.5)/(n + 1), anc.prev.lst, anc.n.lst, 
         SIMPLIFY = FALSE)
-    W.lst <- lapply(x.lst, qnorm)
+    W.lst <- lapply(x.lst, qnorm)  # Probit transform
     v.lst <- mapply(function(W, x, n) 2 * pi * exp(W^2) * x * (1 - x)/n, W.lst, x.lst, 
-        anc.n.lst, SIMPLIFY = FALSE)
+        anc.n.lst, SIMPLIFY = FALSE)  # Delta method for variance (binomial transformed to probit)
     anc.idx.lst <- lapply(anc.years.lst, "-", anchor.year - 1)  ## index of observations relative to output prevalence vector
     
     
